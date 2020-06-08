@@ -8,6 +8,7 @@ import EventStack from './otherStack/eventStack';
 import ProfileStack from './otherStack/profileStack';
 import HomeStack from './otherStack/homeStack';
 import SearchStack from './otherStack/searchStack';
+import UploadStack from './otherStack/uploadStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -41,7 +42,11 @@ export default function TabStack() {
           size={24}
           color={focused ? '#4ecca3' : 'gray'}
         />
-      );
+      )
+    } else if (route.name === 'Upload'){
+      return(
+        <AntDesign name="pluscircle" style={{padding: 55}} size={55} color={focused ? '#4ecca3' : 'gray'} />
+      )
     }
   };
 
@@ -59,6 +64,7 @@ export default function TabStack() {
     >
       <Tab.Screen name="Home" component={HomeStack} />
       <Tab.Screen name="Search" component={SearchStack} />
+      <Tab.Screen name="Upload" component={UploadStack} />
       <Tab.Screen name="Event" component={EventStack} />
       <Tab.Screen name="Profile" component={ProfileStack} />
     </Tab.Navigator>
