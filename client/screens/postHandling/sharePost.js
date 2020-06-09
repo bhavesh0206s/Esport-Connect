@@ -5,17 +5,21 @@ import Modal from 'react-native-modal';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { TouchableWithoutFeedback, ScrollView, TouchableOpacity, TextInput } from 'react-native-gesture-handler';
 import Header from '../../shared/header';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { addPost } from '../../Redux/actions/post';
 
 const SharePostModal = ({toggleSharePostModal, sharePost}) => {
+  const dispatch = useDispatch();
   const myprofile = useSelector((state) => state.profile.myprofile);
   const [visible, setVisible] = useState(true);
-  const [disablePostBtn, setDisablePostBtn] = useState(true)
-  const [input, setInput] = useState('')
-  const { name } = myprofile
-  const toggleModal = () =>{
-    setVisible(!visible)
+  const [disablePostBtn, setDisablePostBtn] = useState(true);
+  const [input, setInput] = useState('');
+  const { name } = myprofile;
+  
+  const addPostToDb = () =>{
+    dispatch(addPost(input))
   }
+
   const handleInput = (val) =>{
     setInput(val);
     if(val.length > 0){
@@ -24,8 +28,8 @@ const SharePostModal = ({toggleSharePostModal, sharePost}) => {
     else{
       setDisablePostBtn(true)
     }
-    console.log(input)
   }
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <Modal
@@ -52,7 +56,8 @@ const SharePostModal = ({toggleSharePostModal, sharePost}) => {
               buttonStyle={styles.submitPost} 
               type='clear' 
               disabled={disablePostBtn} 
-              title='Post' 
+              title='Post'
+              onPress={addPostToDb}
               titleStyle={{color:'white'}}
             />
           </View>

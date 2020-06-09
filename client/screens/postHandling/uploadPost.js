@@ -4,25 +4,34 @@ import { Button, Text } from 'react-native-elements';
 import Modal from 'react-native-modal';
 import { AntDesign } from '@expo/vector-icons';
 import SharePostModal from './sharePost';
+import HostEventModal from './hostEvent';
 
 export default UploadPostModal = () => {
   const [visible, setVisible] = useState(false);
   const [sharePost, setSharePost] = useState(false);
+  const [hostEvent, setHostEvent] = useState(false);
 
   const toggleSharePostModal = () =>{
-    setSharePost(!sharePost)
-    setVisible(false)
+    setSharePost(!sharePost);
+    setVisible(false);
+  }
+
+  const toggleHostEventModal = () =>{
+    setHostEvent(!hostEvent);
+    setVisible(false);
   }
 
   const toggleModal = () =>{
-    setVisible(!visible)
+    setVisible(!visible);
   }
   
   return (
     <>
       {sharePost ? (
         <SharePostModal sharePost={sharePost} toggleSharePostModal={toggleSharePostModal}/>
-      ): (
+      ): hostEvent ? (
+        <HostEventModal toggleHostEventModal={toggleHostEventModal} hostEvent={hostEvent} />
+      ) : (
         <View>
           <Button onPress={() => setVisible(true)}
             buttonStyle={styles.buttonStyle}
@@ -42,7 +51,7 @@ export default UploadPostModal = () => {
             >
               <View style={styles.content}>
                 <Button buttonStyle={styles.contentBtn} onPress={toggleSharePostModal} title='Share Post'/>
-                <Button buttonStyle={styles.contentBtn} title='Host Event'/>
+                <Button buttonStyle={styles.contentBtn} onPress={toggleHostEventModal} title='Host Event'/>
               </View>
             </Modal>
           </View>

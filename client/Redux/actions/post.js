@@ -3,6 +3,7 @@ import {
   CLEARMYPOSTS,
   GETGLOBALPOSTS,
   CLEARGLOBALPOSTS,
+  ADDPOST,
 } from './types';
 import axios from 'axios';
 import { ipAddress } from '../ipaddress';
@@ -10,6 +11,29 @@ import { createProfile, getCurrentProfile } from './profile';
 import { setAlert } from './alert';
 
 //  Get all posts to show on home page
+
+export const addPost = (text) => async (dispatch) => {
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const res = await axios.post(`http://${ipAddress}:3000/api/post/addmypost`, {text}, config);
+
+    dispatch({
+      type: ADDPOST,
+      payload: res.data,
+    });
+  } catch (err) {
+    console.log(err.response.data.errors)
+    dispatch({
+      type: CLEARGLOBALPOSTS,
+    });
+  }
+};
+
 export const getAllPosts = () => async (dispatch) => {
   try {
     const res = await axios.get(`http://${ipAddress}:3000/api/post/allposts`);

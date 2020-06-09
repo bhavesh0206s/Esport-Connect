@@ -3,6 +3,7 @@ import {
   CLEARMYPOSTS,
   GETGLOBALPOSTS,
   CLEARGLOBALPOSTS,
+  ADDPOST,
 } from '../actions/types';
 
 const initialState = {
@@ -20,6 +21,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         globalposts: [...payload],
+        loading: false,
+      };
+    case ADDPOST:
+      console.log('ADDPOST-SUCCESSFULL');
+      return {
+        ...state,
+        post: [...payload],
         loading: false,
       };
     case CLEARGLOBALPOSTS:

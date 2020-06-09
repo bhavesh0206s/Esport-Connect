@@ -20,6 +20,7 @@ const eventSchema = yup.object({
 });
 
 const Addevent = ({setModalOpen}) => {
+
   const dispatch = useDispatch();
 
   return (
@@ -82,8 +83,6 @@ const Addevent = ({setModalOpen}) => {
             <Input
               placeholder="prizepool -> e.g. 4000,5000"
               onChangeText={formikprops.handleChange('prizepool')}
-              // Bhavesh niche ke line mai maine alag se `${}` karke value di hai kyuki ek warning aa rahi thi
-              // tu isko simple bana de and dekh kya warning aa rahi hai and vo warning solve kar dena
               value={`${formikprops.values.prizepool}`}
               onBlur={formikprops.handleBlur('prizepool')}
               errorMessage={formikprops.touched.prizepool && formikprops.errors.prizepool}
@@ -91,8 +90,6 @@ const Addevent = ({setModalOpen}) => {
             <Input
               placeholder="teamsize -> e.g. 2,3,4,16"
               onChangeText={formikprops.handleChange('teamsize')}
-              // Bhavesh niche ke line mai maine alag se `${}` karke value di hai kyuki ek warning aa rahi thi
-              // tu isko simple bana de and dekh kya warning aa rahi hai and vo warning solve kar dena
               value={`${formikprops.values.teamsize}`}
               onBlur={formikprops.handleBlur('teamsize')}
               errorMessage={formikprops.touched.teamsize && formikprops.errors.teamsize}

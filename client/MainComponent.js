@@ -14,6 +14,7 @@ import { loadUser } from './Redux/actions/auth';
 import Loading from './shared/loading';
 import { fetchallevents } from './Redux/actions/event';
 import { getCurrentProfile } from './Redux/actions/profile';
+import { getAllPosts } from './Redux/actions/post';
 
 const MainComponent = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const MainComponent = () => {
         setAuthToken(token);
         dispatch(loadUser());
         dispatch(getCurrentProfile());
+        dispatch(getAllPosts());
       }
     };
     userLoad();

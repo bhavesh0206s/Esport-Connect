@@ -16,6 +16,7 @@ module.exports = (app) => {
     [verify, [check('text', 'Text is required').not().isEmpty()]],
     async (req, res) => {
       const errors = validationResult(req);
+
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
@@ -30,7 +31,6 @@ module.exports = (app) => {
             ],
           });
         }
-
         let postitems = {
           user: req.user.id,
           name: myprofile.name,
@@ -46,9 +46,6 @@ module.exports = (app) => {
             errors: [{ msg: 'Sorry ur post was not posted' }],
           });
         }
-
-        console.log(postsuccess);
-        console.log(post);
 
         myprofile.myposts.push({
           user: req.user.id,
@@ -70,6 +67,7 @@ module.exports = (app) => {
         res.json(myprofile.myposts);
       } catch (err) {
         res.status(500).send('Server Error');
+        console.log('error from ADD post')
         console.error(err.message);
       }
     }
