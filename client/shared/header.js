@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { getProfiles } from '../Redux/actions/profile';
 import Search from '../screens/search';
 import SearchBar from './searchbar';
-
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const Header = ({ navigation, title, type }) => {
   const dispatch = useDispatch();

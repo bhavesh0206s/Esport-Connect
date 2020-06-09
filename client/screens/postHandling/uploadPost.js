@@ -1,56 +1,81 @@
-import React, { useState, useEffect } from 'react';
-import {
-  View,
-  StyleSheet,
-  Text
-} from 'react-native';
-import Modal  from 'react-native-modal'
+import React, { useState } from 'react';
+import { StyleSheet, View } from "react-native";
+import { Button, Text } from 'react-native-elements';
+import Modal from 'react-native-modal';
+import { AntDesign } from '@expo/vector-icons';
+import SharePostModal from './sharePost';
 
-const UploadPost = ({navigation}) => {
-  const [visible, setVisible] = useState(true);
+export default UploadPostModal = () => {
+  const [visible, setVisible] = useState(false);
+  const [sharePost, setSharePost] = useState(false);
 
-  const toggleOverlay = () => {
-    setVisible(!visible);
-  };
- 
+  const toggleSharePostModal = () =>{
+    setSharePost(!sharePost)
+    setVisible(false)
+  }
+
+  const toggleModal = () =>{
+    setVisible(!visible)
+  }
+  
   return (
-    <View >
-      <Modal
-        animationIn="bounceIn"
-        backdropOpacity={0.8}
-        onSwipeComplete={toggleOverlay}
-        swipeDirection={['up', 'left', 'right', 'down']}
-        isVisible={visible}
-        onBackButtonPress={toggleOverlay}
-        style={styles.overLay}
-        onBackdropPress={toggleOverlay}
-      >
-        <View style={styles.content}>
-          <Text style={styles.contentTitle}>Hello👋!</Text>
+    <>
+      {sharePost ? (
+        <SharePostModal sharePost={sharePost} toggleSharePostModal={toggleSharePostModal}/>
+      ): (
+        <View>
+          <Button onPress={() => setVisible(true)}
+            buttonStyle={styles.buttonStyle}
+            icon={
+              <AntDesign name="pluscircle" size={30} color='gray' />
+            }
+          />
+          <View style={styles.container}>
+            <Modal
+              onSwipeComplete={toggleModal}
+              swipeDirection={['left', 'right', 'down']}
+              isVisible={visible}
+              onBackButtonPress={toggleModal}
+              style={styles.overLay}
+              onBackdropPress={toggleModal}
+              style={styles.contentView}
+            >
+              <View style={styles.content}>
+                <Button buttonStyle={styles.contentBtn} onPress={toggleSharePostModal} title='Share Post'/>
+                <Button buttonStyle={styles.contentBtn} title='Host Event'/>
+              </View>
+            </Modal>
+          </View>
         </View>
-      </Modal>
-    </View>
+      )}
+    </>
   );
 }
-
 const styles = StyleSheet.create({
-  overLay: {
-    justifyContent: 'flex-end',
-    margin: 0,
-  },
   content: {
     backgroundColor: 'white',
     padding: 22,
     justifyContent: 'center',
     alignItems: 'center',
-    borderTopStartRadius: 30,
-    borderTopEndRadius: 30,
-    borderColor: 'rgba(0, 0, 0, 0.1)',
+    borderTopRightRadius: 17,
+    borderTopLeftRadius: 17,
   },
   contentTitle: {
     fontSize: 20,
     marginBottom: 12,
   },
+  contentView: {
+    justifyContent: 'flex-end',
+    margin: 0,
+  },
+	buttonStyle: {
+    height: 60,
+    width: 60,
+    backgroundColor: '#4ecca3',
+    borderRadius: 100
+  },
+  contentBtn:{
+    margin: 10,
+    width: 200
+  }
 });
-
-export default UploadPost;

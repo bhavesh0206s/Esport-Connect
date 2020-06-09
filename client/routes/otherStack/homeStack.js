@@ -11,8 +11,10 @@ const HomeStack = () => {
     <Stack.Navigator>
       <Stack.Screen
         name='Home'
+        naviga
         options={({ navigation, route }) => ({
           headerTitle: () => <Header navigation={navigation} title='Home'/>,
+          drawerLockMode: 'locked-closed'
         })}
         component={Home}
       />

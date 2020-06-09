@@ -18,50 +18,45 @@ const Editprofile = ({ setModalOpen }) => {
   const myprofileinfo = useSelector((state) => state.profile);
   const { bio, name } = myprofileinfo.myprofile;
 
-  if (!myprofileloading.myprofile) {
-    dispatch(getCurrentProfile());
-    return <Loading />;
-  } else {
-    return (
-      <View style={styles.content}>
-        <Formik
-          initialValues={{ name, bio }}
-          validationSchema={profileSchema}
-          onSubmit={(values) => {
-            dispatch(createProfile(values));
-            // values here is an object containing form data
-            setModalOpen(false);
-          }}
-        >
-          {(formikprops) => (
-            <View>
-              <Input
-                style={styles.input}
-                placeholder={name ? name : 'Username'}
-                onChangeText={formikprops.handleChange('name')}
-                value={formikprops.values.name}
-                onBlur={formikprops.handleBlur('name')}
-                errorMessage={
-                  formikprops.touched.name && formikprops.errors.name
-                }
-              />
-              <Input
-                style={styles.input}
-                multiline
-                placeholder={bio ? bio : 'Your Bio'}
-                onChangeText={formikprops.handleChange('bio')}
-                value={formikprops.values.bio}
-                onBlur={formikprops.handleBlur('bio')}
-                errorMessage={formikprops.touched.bio && formikprops.errors.bio}
-              />
+  return (
+    <View style={styles.content}>
+      <Formik
+        initialValues={{ name, bio }}
+        validationSchema={profileSchema}
+        onSubmit={(values) => {
+          dispatch(createProfile(values));
+          // values here is an object containing form data
+          setModalOpen(false);
+        }}
+      >
+        {(formikprops) => (
+          <View>
+            <Input
+              style={styles.input}
+              placeholder={name ? name : 'Username'}
+              onChangeText={formikprops.handleChange('name')}
+              value={formikprops.values.name}
+              onBlur={formikprops.handleBlur('name')}
+              errorMessage={
+                formikprops.touched.name && formikprops.errors.name
+              }
+            />
+            <Input
+              style={styles.input}
+              multiline
+              placeholder={bio ? bio : 'Your Bio'}
+              onChangeText={formikprops.handleChange('bio')}
+              value={formikprops.values.bio}
+              onBlur={formikprops.handleBlur('bio')}
+              errorMessage={formikprops.touched.bio && formikprops.errors.bio}
+            />
 
-              <Button onPress={formikprops.handleSubmit} title="Save" />
-            </View>
-          )}
-        </Formik>
-      </View>
-    );
-  }
+            <Button onPress={formikprops.handleSubmit} title="Save" />
+          </View>
+        )}
+      </Formik>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({

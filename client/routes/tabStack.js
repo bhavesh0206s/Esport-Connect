@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
@@ -9,21 +9,24 @@ import ProfileStack from './otherStack/profileStack';
 import HomeStack from './otherStack/homeStack';
 import SearchStack from './otherStack/searchStack';
 import UploadStack from './otherStack/uploadStack';
+import UploadPost from '../screens/postHandling/uploadPost';
 
 const Tab = createBottomTabNavigator();
+
+const UploadPostComponent = () => null;
 
 export default function TabStack() {
   
   const showTabIcons = (route, focused, color, size) => {
     if (route.name === 'Home') {
       return (
-        <AntDesign name="home" size={24} color={focused ? '#4ecca3' : 'gray'} />
+        <AntDesign name="home" size={30} color={focused ? '#4ecca3' : 'gray'} />
       );
     } else if (route.name === 'Search') {
       return (
         <FontAwesome
           name="search"
-          size={24}
+          size={30}
           color={focused ? '#4ecca3' : 'gray'}
         />
       );
@@ -31,7 +34,7 @@ export default function TabStack() {
       return (
         <MaterialCommunityIcons
           name="face-profile"
-          size={24}
+          size={30}
           color={focused ? '#4ecca3' : 'gray'}
         />
       );
@@ -39,13 +42,9 @@ export default function TabStack() {
       return (
         <MaterialIcons
           name="event"
-          size={24}
+          size={30}
           color={focused ? '#4ecca3' : 'gray'}
         />
-      )
-    } else if (route.name === 'Upload'){
-      return(
-        <AntDesign name="pluscircle" style={{padding: 55}} size={55} color={focused ? '#4ecca3' : 'gray'} />
       )
     }
   };
@@ -56,15 +55,23 @@ export default function TabStack() {
         tabBarIcon: ({ focused, color, size }) =>
           showTabIcons(route, focused, color, size),
       })}
-
+      
       tabBarOptions={{
         activeTintColor: '#4ecca3',
         inactiveTintColor: 'gray',
+        showLabel: false
       }}
     >
       <Tab.Screen name="Home" component={HomeStack} />
       <Tab.Screen name="Search" component={SearchStack} />
-      <Tab.Screen name="Upload" component={UploadStack} />
+      <Tab.Screen 
+        name="Upload" 
+        options={({ navigation, route }) => ({
+          tabBarIcon: () => (<UploadPost />)
+        })}
+
+        component={UploadPostComponent} />
+
       <Tab.Screen name="Event" component={EventStack} />
       <Tab.Screen name="Profile" component={ProfileStack} />
     </Tab.Navigator>
