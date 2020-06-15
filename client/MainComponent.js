@@ -29,7 +29,6 @@ const MainComponent = () => {
         setAuthToken(token);
         dispatch(loadUser());
         dispatch(getCurrentProfile());
-        dispatch(getAllPosts());
       }
     };
     userLoad();

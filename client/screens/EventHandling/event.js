@@ -22,37 +22,11 @@ const Event = ({ navigation }) => {
   const myevents = profileinfo.myprofile.myevents;
   const loading = profileinfo.loading;
 
-  // Setting the visibility of Modal
-  const [modalOpen, setModalOpen] = useState(false);
-
   if (loading) {
     return <Loading />;
   } else {
     return (
       <View>
-        <Modal
-          style={styles.overlay}
-          isVisible={modalOpen}
-          backdropColor="#3e3f42"
-          animationIn='fadeInUp'
-          animationOut='fadeOutDown'
-          onSwipeComplete={()=>setModalOpen(false)}
-          swipeDirection={['up', 'left', 'right', 'down']}
-          animationInTiming={200}
-          animationOutTiming={200}
-          backdropTransitionInTiming={400}
-          backdropTransitionOutTiming={400}
-          onBackButtonPress={()=>setModalOpen(false)}
-        >
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <ScrollView style={{ flex: 1 }} keyboardShouldPersistTaps='always'>
-              <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <Addevent setModalOpen={setModalOpen} navigation={navigation} />
-              </TouchableWithoutFeedback>
-            </ScrollView>
-          </TouchableWithoutFeedback>
-        </Modal>
-        <Button title="Add Event" buttonStyle={{margin: 20}} onPress={() => setModalOpen(true)} />
         {myevents && (
           <FlatList
             data={myevents}

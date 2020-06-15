@@ -6,7 +6,7 @@ import { AntDesign } from '@expo/vector-icons';
 import SharePostModal from './sharePost';
 import HostEventModal from './hostEvent';
 
-export default UploadPostModal = () => {
+export default UploadPostModal = ({navigation}) => {
   const [visible, setVisible] = useState(false);
   const [sharePost, setSharePost] = useState(false);
   const [hostEvent, setHostEvent] = useState(false);
@@ -28,7 +28,7 @@ export default UploadPostModal = () => {
   return (
     <>
       {sharePost ? (
-        <SharePostModal sharePost={sharePost} toggleSharePostModal={toggleSharePostModal}/>
+        <SharePostModal navigation={navigation} sharePost={sharePost} toggleSharePostModal={toggleSharePostModal}/>
       ): hostEvent ? (
         <HostEventModal toggleHostEventModal={toggleHostEventModal} hostEvent={hostEvent} />
       ) : (

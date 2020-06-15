@@ -8,7 +8,7 @@ import Header from '../../shared/header';
 import { useSelector, useDispatch } from 'react-redux';
 import { addPost } from '../../Redux/actions/post';
 
-const SharePostModal = ({toggleSharePostModal, sharePost}) => {
+const SharePostModal = ({toggleSharePostModal, sharePost, navigation}) => {
   const dispatch = useDispatch();
   const myprofile = useSelector((state) => state.profile.myprofile);
   const [visible, setVisible] = useState(true);
@@ -17,7 +17,9 @@ const SharePostModal = ({toggleSharePostModal, sharePost}) => {
   const { name } = myprofile;
   
   const addPostToDb = () =>{
-    dispatch(addPost(input))
+    navigation.navigate('Home');
+    dispatch(addPost(input));
+    toggleSharePostModal();
   }
 
   const handleInput = (val) =>{

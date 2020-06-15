@@ -7,7 +7,7 @@ import Profiles from '../screens/Profilehandling/profiles';
 const Search = ({ navigation }) => {
   const dispatch = useDispatch();
   const userprofiles = useSelector((state) => state.profile.profiles);
-
+  
   return (
     <View>
       {userprofiles.length === 0 ? (

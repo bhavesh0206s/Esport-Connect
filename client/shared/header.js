@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Feather } from '@expo/vector-icons';
 import { View, StyleSheet } from 'react-native';
 import { Text } from 'react-native-elements';
@@ -15,12 +15,15 @@ const Header = ({ navigation, title, type }) => {
     navigation.openDrawer();
   };
 
+  const textInput = useRef();
+
+  const focusTextInput = () => textInput.current.focus();
   
   if (type === 'Search') {
     return (
       <View style={styles.header}>
         <Feather name="menu" size={29} onPress={openMenu} style={styles.icon} />
-        <SearchBar />
+        <SearchBar focusTextInput={focusTextInput} textInput={textInput}/>
       </View>  
     );
   }

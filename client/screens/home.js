@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { View, Button, FlatList, RefreshControl } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Button, FlatList, RefreshControl, ScrollView } from 'react-native';
 import { Text } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadUser, logout } from '../Redux/actions/auth';
@@ -14,6 +14,13 @@ const Home = () => {
   const dispatch = useDispatch();
   const globalposts = useSelector((state) => state.post.globalposts);
   const myprofile = useSelector((state) => state.profile.myprofile);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    dispatch(getAllPosts());
+    setRefreshing(false);
+  }
 
   useEffect(() => {
     const userLoad = async () => {
@@ -33,6 +40,10 @@ const Home = () => {
     return (
       <View>
         <FlatList
+          nestedScrollEnabled
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
           data={globalposts}
           keyExtractor={(item) => item._id}
           renderItem={({ item }) => <Posts item={[item]} />}

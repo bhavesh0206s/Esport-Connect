@@ -5,11 +5,11 @@ import { StyleSheet, View ,TextInput} from 'react-native';
 import { Input, Icon } from 'react-native-elements';
 import { AntDesign } from '@expo/vector-icons';
 
-const SearchBar = () => {
+const SearchBar = ({focusTextInput, textInput}) => {
   const dispatch = useDispatch();
   const [inputsearch, setInputSearch] = useState('');
   const [showCancelBtn, setShowCancelBtn] = useState(false)
-
+  
   const handleCancel = () => {
     setInputSearch(''); 
     dispatch(getProfiles(''));
@@ -20,6 +20,7 @@ const SearchBar = () => {
     <View style={styles.searchSection}>
       <AntDesign name="search1" style={styles.searchIcon} size={24} color="black" />
       <TextInput
+        ref={textInput}
         style={styles.input}
         placeholder="Search..."
         onChangeText={(val) => {

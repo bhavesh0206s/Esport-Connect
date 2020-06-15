@@ -67,7 +67,7 @@ export default function TabStack() {
       <Tab.Screen 
         name="Upload" 
         options={({ navigation, route }) => ({
-          tabBarIcon: () => (<UploadPost />)
+          tabBarIcon: () => (<UploadPost navigation={navigation} />)
         })}
 
         component={UploadPostComponent} />
