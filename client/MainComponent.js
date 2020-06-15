@@ -44,7 +44,7 @@ const MainComponent = () => {
       }
     };
     userLoad();
-    console.log('Maincomponent page refreshed');
+    // console.log('Maincomponent page refreshed');
   }, []);
 
   if (!isReady) {
