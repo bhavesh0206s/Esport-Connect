@@ -4,6 +4,9 @@ import {
   GETGLOBALPOSTS,
   CLEARGLOBALPOSTS,
   ADDPOST,
+  LIKEHANDLESUCCESS,
+  CLEARCHANGEDLIKE,
+  CHANGEUIDUETOLIKE,
 } from './types';
 import axios from 'axios';
 import { ipAddress } from '../ipaddress';
@@ -37,7 +40,7 @@ export const addPost = (text) => async (dispatch) => {
 export const getAllPosts = () => async (dispatch) => {
   try {
     const res = await axios.get(`http://${ipAddress}:3000/api/post/allposts`);
-    
+
     dispatch({
       type: GETGLOBALPOSTS,
       payload: res.data,
@@ -47,6 +50,29 @@ export const getAllPosts = () => async (dispatch) => {
       type: CLEARGLOBALPOSTS,
     });
   }
+};
+
+//  Like handling of posts
+export const likeHandler = (post_id) => async (dispatch) => {
+  try {
+    const res = await axios.put(
+      `http://${ipAddress}:3000/api/post/likehandling/${post_id}`
+    );
+    dispatch({
+      type: LIKEHANDLESUCCESS,
+      payload: { id: post_id, likes: res.data },
+    });
+  } catch (err) {
+    console.error('likeHandler error');
+  }
+};
+
+export const changeUIdueTolike = (data) => (dispatch) => {
+  dispatch({ type: CHANGEUIDUETOLIKE, payload: data });
+};
+
+export const clearChangedlike = () => (dispatch) => {
+  dispatch({ type: CLEARCHANGEDLIKE });
 };
 
 // Delete my post
@@ -66,8 +92,6 @@ export const deletePost = () => async (dispatch) => {
     console.log('delete succes');
 
     dispatch(loadUser());
-
-
   } catch (err) {
     const errors = err.response.data.errors;
     // this errors are the errors send form the backend

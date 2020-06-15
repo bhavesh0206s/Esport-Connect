@@ -14,7 +14,10 @@ import { loadUser } from './Redux/actions/auth';
 import Loading from './shared/loading';
 import { fetchallevents } from './Redux/actions/event';
 import { getCurrentProfile } from './Redux/actions/profile';
-import { getAllPosts } from './Redux/actions/post';
+import io from 'socket.io-client';
+import { ipAddress } from './Redux/ipaddress';
+
+let socket;
 
 const MainComponent = () => {
   const dispatch = useDispatch();
@@ -23,6 +26,15 @@ const MainComponent = () => {
   const [isReady, setIsReady] = useState(true);
   // console.log('AUTH************: ', isAuthenticated);
   useEffect(() => {
+    // Connect socket
+    socket = io(`http://${ipAddress}:3000`);
+
+    socket.emit('hello', 'hello lav kaise ho app');
+
+    socket.on('hello', (data) => {
+      console.log(data);
+    });
+
     const userLoad = async () => {
       const token = await AsyncStorage.getItem('token');
       if (token !== null) {
@@ -49,4 +61,4 @@ const MainComponent = () => {
   }
 };
 
-export default MainComponent;
+export { MainComponent, socket };
