@@ -10,7 +10,7 @@ const Posts = ({ item }) => {
   const user = useSelector((state) => state.profile.myprofile.user);
   const [like, setlike] = useState(false)
   useEffect(() => {
-    console.log(item[0])
+  
     if (
       item[0].likes.filter((like) => like.user === user).length > 0 &&
       !like
@@ -19,7 +19,7 @@ const Posts = ({ item }) => {
     } else {
       setlike(false);
     }
-  }, []);
+  }, [like]);
 
   return (
     <View

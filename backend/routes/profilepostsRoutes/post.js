@@ -20,19 +20,20 @@ module.exports = (app) => {
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
-
       try {
+        console.log(req.user.email)
         let postitems = {
           user: req.user.id,
           name: req.user.name,
           text: req.body.text,
         };
-
+        
         let post = new Post(postitems);
 
         let postsuccess = await post.save();
 
         if (!postsuccess) {
+          
           return res.json({
             errors: [{ msg: 'Sorry ur post was not posted' }],
           });

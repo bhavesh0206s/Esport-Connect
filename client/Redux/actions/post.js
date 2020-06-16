@@ -32,7 +32,7 @@ export const addPost = (text) => async (dispatch) => {
       payload: res.data,
     });
   } catch (err) {
-    console.log(err.response.data.errors)
+    console.log(err.response.data)
     dispatch({
       type: CLEARGLOBALPOSTS,
     });
@@ -62,7 +62,7 @@ export const likeHandler = (postId, liked) => async (dispatch) => {
     socket.emit('changed like', data);
 
     socket.on('changed like', (data) => {
-      console.log('liked from client:',data)
+      console.log('liked')
       dispatch({
         type: LIKEHANDLESUCCESS,
         payload: { id: postId, likes: data },
