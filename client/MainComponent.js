@@ -29,12 +29,6 @@ const MainComponent = () => {
     // Connect socket
     socket = io(`http://${ipAddress}:3000`);
 
-    socket.emit('hello', 'hello lav kaise ho app');
-
-    socket.on('hello', (data) => {
-      console.log(data);
-    });
-
     const userLoad = async () => {
       const token = await AsyncStorage.getItem('token');
       if (token !== null) {

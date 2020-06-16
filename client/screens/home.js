@@ -41,17 +41,15 @@ const Home = () => {
     dispatch(getAllPosts());
   }, []);
 
-  useEffect(() => {
-    console.log('This useEffect ran due to change in likes');
-    if (changedlike) {
-      socket.emit('changelike', changedlike);
-      console.log('socket.emit got trrigered');
-    }
-
-    dispatch(clearChangedlike());
-  }, [changedlike]);
-
-  socket.on('changelike', (data) => {
+  // useEffect(() => {
+  //   const updateLike = async  () => {
+      
+  //     setLiked(false)
+  //   }
+  //   updateLike();
+  // }, [liked]);
+  
+  socket.on('changed like', (data) => {
     dispatch(changeUIdueTolike(data));
     console.log('socket.on got trrigered');
   });

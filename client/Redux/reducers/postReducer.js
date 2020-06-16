@@ -42,21 +42,20 @@ export default (state = initialState, action) => {
       };
     case LIKEHANDLESUCCESS:
       // This will instantly change the like number in our app
+      // console.log({changedlike: { id: payload.id, likes: payload.likes },
+      //   globalposts: state.globalposts.map((post) =>
+      //     post._id === payload.id ? { ...post, likes: payload.likes } : post
+      //   )})
       return {
         ...state,
         changedlike: { id: payload.id, likes: payload.likes },
-        globalposts: state.globalposts.map((post) =>
-          post._id === payload.id ? { ...post, likes: payload.likes } : post
-        ),
         loading: false,
       };
     case CHANGEUIDUETOLIKE:
       // This will change the like number in users app when anyone like/unlike post
       return {
         ...state,
-        globalposts: state.globalposts.map((post) =>
-          post._id === payload.id ? { ...post, likes: payload.likes } : post
-        ),
+        
       };
     case CLEARCHANGEDLIKE:
       return {

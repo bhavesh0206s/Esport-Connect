@@ -12,6 +12,8 @@ import axios from 'axios';
 import { ipAddress } from '../ipaddress';
 import { createProfile, getCurrentProfile } from './profile';
 import { setAlert } from './alert';
+import { AsyncStorage } from 'react-native';
+import { socket } from '../../MainComponent';
 
 //  Get all posts to show on home page
 
@@ -53,17 +55,22 @@ export const getAllPosts = () => async (dispatch) => {
 };
 
 //  Like handling of posts
-export const likeHandler = (post_id) => async (dispatch) => {
+export const likeHandler = (postId, liked) => async (dispatch) => {
   try {
-    const res = await axios.put(
-      `http://${ipAddress}:3000/api/post/likehandling/${post_id}`
-    );
-    dispatch({
-      type: LIKEHANDLESUCCESS,
-      payload: { id: post_id, likes: res.data },
-    });
+    const token = await AsyncStorage.getItem('token');
+    const data = {token , postId, liked};
+    socket.emit('changed like', data);
+
+    socket.on('changed like', (data) => {
+      console.log('liked from client:',data)
+      dispatch({
+        type: LIKEHANDLESUCCESS,
+        payload: { id: postId, likes: data },
+      });
+    })
+
   } catch (err) {
-    console.error('likeHandler error');
+    console.error(err);
   }
 };
 
