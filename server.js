@@ -38,37 +38,35 @@ io.on('connection', (socket) => {
 
   socket.on('changed like', async (data) => {
     const {token, postId, liked} = data;
-    // if(liked){
-    //   const decoded = jwt.verify(token, keys.jwtSecret);
-    //   const user = decoded.user;
+    if(liked){
+      const decoded = jwt.verify(token, keys.jwtSecret);
+      const user = decoded.user;
       
-    //   try {
-    //     let post = await POST.findById(postId);
-  
-    //     // Check if the post has already been liked
-    //     if (
-    //       post.likes.filter((like) => like.user.toString() === user.id)
-    //     ) {
-
-    //       post.likes = post.likes.filter((like) => like.user.toString() !== user.id);
-    //       // Save in our global post
-    //       await post.save();
-
-    //       socket.emit('changed like', post.likes);
-    //     }
-    //     else{
+      try {
+        let post = await POST.findById(postId);
+        // Check if the post has already been liked
+        if (
+          post.likes.filter((like) => like.user.toString() === user.id).length > 0
+        ) {
           
-    //       post.likes.push({ user: user.id, name: user.name });
+          post.likes = post.likes.filter((like) => like.user.toString() !== user.id);
+          // Save in our global post
+          await post.save();
+      
+          socket.emit('changed like', post.likes);
+        }
+        else{
+          
+          post.likes.push({ user: user.id, name: user.name });
+          
+          await post.save();
 
-    //       await post.save();
-        
-    //       socket.emit('changed like', post.likes);
-    //     }
-    //   } catch (err) {
-    //     console.error(err);
-    //     // res.status(500).send('Server Error');
-    //   }
-    // }
+          socket.emit('changed like', post.likes);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
     
   });
 });

@@ -23,7 +23,7 @@ const MainComponent = () => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const isAuthenticated = auth.isAuthenticated;
-  const [isReady, setIsReady] = useState(true);
+  const [isReady, setIsReady] = useState(false);
   // console.log('AUTH************: ', isAuthenticated);
   useEffect(() => {
     // Connect socket
@@ -36,6 +36,7 @@ const MainComponent = () => {
         dispatch(loadUser());
         dispatch(getCurrentProfile());
       }
+      setTimeout( () => { setIsReady(true) }, 500);
     };
     userLoad();
     // console.log('Maincomponent page refreshed');

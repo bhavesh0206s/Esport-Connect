@@ -62,7 +62,7 @@ export const likeHandler = (postId, liked) => async (dispatch) => {
     socket.emit('changed like', data);
 
     socket.on('changed like', (data) => {
-      console.log('liked')
+
       dispatch({
         type: LIKEHANDLESUCCESS,
         payload: { id: postId, likes: data },

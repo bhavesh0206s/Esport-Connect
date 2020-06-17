@@ -17,9 +17,11 @@ import { socket } from '../MainComponent';
 
 const Home = () => {
   const dispatch = useDispatch();
-  const globalposts = useSelector((state) => state.post.globalposts);
-  const myprofile = useSelector((state) => state.profile.myprofile);
-  let changedlike = useSelector((state) => state.post.changedlike);
+  const {globalposts, myprofile, changedlike} = useSelector((state) => ({
+    globalposts: state.post.globalposts,
+    myprofile: state.profile.myprofile,
+    changedlike: state.post.changedlike
+  }));
   
   const [refreshing, setRefreshing] = useState(false);
 
@@ -39,8 +41,10 @@ const Home = () => {
     userLoad();
     console.log('Home Page refreshed');
     dispatch(getAllPosts());
+    
   }, []);
 
+  
   // useEffect(() => {
   //   const updateLike = async  () => {
       
@@ -49,11 +53,11 @@ const Home = () => {
   //   updateLike();
   // }, [liked]);
   
-  socket.on('changed like', (data) => {
-    dispatch(changeUIdueTolike(data));
-    console.log('socket.on got trrigered');
-  });
-
+  // socket.on('changed like', (data) => {
+  //   dispatch(changeUIdueTolike(data));
+  //   console.log('socket.on got trrigered');
+  // });
+  
   if (globalposts.length <= 0 || !myprofile) {
     return <Loading />;
   } else {
@@ -64,9 +68,12 @@ const Home = () => {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
+          extraData={changedlike}
           data={globalposts}
+          onEndReachedThreshold={0.5}
+          initialNumToRender={6}
           keyExtractor={(item) => item._id}
-          renderItem={({ item }) => <Posts item={[item]} />}
+          renderItem={({ item }) => <Posts changedlike={changedlike} item={[item]} />}
         />
       </View>
     );

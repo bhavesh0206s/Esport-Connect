@@ -3,102 +3,103 @@ import { View } from 'react-native';
 import { Text, Card, Button, Icon, Avatar } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 import { likeHandler } from '../../Redux/actions/post';
+import { StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-const Posts = ({ item }) => {
+const Posts = ({ item, changedlike }) => {
+
+  const navigation = useNavigation();
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.profile.myprofile.user);
-  const [like, setlike] = useState(false)
+  const [like, setLike] = useState(false);
+
   useEffect(() => {
-  
     if (
       item[0].likes.filter((like) => like.user === user).length > 0 &&
       !like
     ) {
-      setlike(true);
+      setLike(true);
     } else {
-      setlike(false);
+      setLike(false);
     }
-  }, [like]);
+  }, []);
 
   return (
-    <View
-      style={{
-        borderBottomWidth: 2,
-        borderTopColor: 'gray',
-        borderTopWidth: 1,
-        borderBottomColor: 'gray',
-        padding: 2,
-        marginBottom: 5,
-        marginHorizontal: 1,
-      }}
+    <Card 
+      containerStyle={styles.card}
     >
       <View style={{ flexDirection: 'row', marginVertical: 4 }}>
-        <Avatar
-          size={40}
-          rounded
-          overlayContainerStyle={{ backgroundColor: 'black' }}
-          icon={{ name: 'user', type: 'font-awesome-5' }}
-          onPress={() => console.log('Works!')}
-          activeOpacity={1}
-          containerStyle={{
-            marginHorizontal: 2,
-          }}
-        />
-        <View style={{ justifyContent: 'center', marginLeft: 5 }}>
-          <Text style={{ fontSize: 20 }}>{item[0].name}</Text>
-        </View>
-      </View>
-      <View>
-        <Text style={{ fontSize: 22 }}>{item[0].text}</Text>
-      </View>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <Text>{`${item[0].likes.length}  likes`}</Text>
-        <Text>{`${item[0].comments.length}  comments`}</Text>
-      </View>
-      <View
-        style={{
-          borderWidth: 1,
-          borderColor: 'gray',
-          marginHorizontal: 16,
-          marginVertical: 1,
+      <Avatar
+        size={35}
+        rounded
+        overlayContainerStyle={{ backgroundColor: 'black' }}
+        icon={{ name: 'user', type: 'font-awesome-5' }}
+        // onPress={() => navigation.navigate('')}
+        activeOpacity={1}
+        containerStyle={{
+          marginHorizontal: 2,
         }}
-      ></View>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Icon
-            size={27}
-            name="favorite-border"
-            type="material"
-            containerStyle={{ width: 30 }}
-            color={like ? 'red' : 'black'}
-            onPress={() => {
-              dispatch(likeHandler(item[0]._id, true));
-            }}
-          />
-          <Text style={{ fontSize: 15 }}>Like</Text>
-        </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Icon
-            name="comment"
-            type="material"
-            containerStyle={{ width: 30 }}
-            onPress={() => console.log('hello')}
-          />
-          <Text style={{ fontSize: 15 }}>Comment</Text>
-        </View>
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <Icon
-            name="share"
-            type="material"
-            containerStyle={{ width: 30 }}
-            onPress={() => console.log('hello')}
-          />
-          <Text style={{ fontSize: 15 }}>Share</Text>
-        </View>
+      />
+      <View style={{ justifyContent: 'center', marginLeft: 5 }}>
+        <Text style={{ fontSize: 19 }}>{item[0].name}</Text>
       </View>
     </View>
+
+      <Text style={{paddingVertical: 10, paddingLeft: 6, fontSize: 15}}>
+        {item[0].text}
+      </Text>
+      <Text  style={{paddingLeft: 6, fontWeight:'bold'}}>
+        {item[0].likes.length>1 ? `${item[0].likes.length} likes`: `${item[0].likes.length} like`}
+      </Text>
+      <View style={styles.btnContent}>
+        <Button
+          icon={<Icon name='favorite' color={like ? 'red': '#68696b'} />}
+          onPress={() => {
+            dispatch(likeHandler(item[0]._id, true));
+          }}
+          buttonStyle={styles.btnStyle}
+          title='Like' 
+          type='clear'
+          titleStyle={{padding: 5, color: 'grey'}}
+        />
+        <Button
+          icon={<Icon name='comment' color='black' />}
+          buttonStyle={styles.btnStyle}
+          title='Comment' 
+          type='clear'
+          titleStyle={{padding: 5, color: 'grey'}}
+        />
+        <Button
+          icon={<Icon name='share' color='black' />}
+          buttonStyle={styles.btnStyle}
+          title='Share' 
+          type='clear' 
+          titleStyle={{padding: 5, color: 'grey'}} 
+        />
+      </View>
+    </Card>
   );
 };
+
+const styles = StyleSheet.create({
+  card: {
+    padding: 10,
+    marginLeft: 0,
+    marginRight: 0,
+    marginVertical: 10,
+  },
+  btnContent:{
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  btnStyle: {
+    borderRadius: 0,
+    marginLeft: 0,
+    marginRight: 0,
+    marginBottom: 0,
+    backgroundColor: 'white'
+  }
+})
 
 export default Posts;
